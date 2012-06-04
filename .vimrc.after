@@ -6,3 +6,5 @@ set autoindent
 syntax enable
 set background=dark
 colorscheme solarized
+
+set clipboard=unnamed
