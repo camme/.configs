@@ -1,0 +1,2 @@
+"fix for incopability issues with syntastic and fishfish
+set shell=/bin/bash
