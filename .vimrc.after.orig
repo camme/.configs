@@ -1,0 +1,40 @@
+set shiftwidth=4
+set tabstop=4
+set smartindent
+set autoindent
+
+syntax enable
+set background=dark
+colorscheme solarized
+
+<<<<<<< HEAD
+set clipboard=unnamed
+=======
+"set clipboard=unnamed
+
+" shortcut for for loops i js
+ab fori for(var i = 0, ii = _; i < ii; i++){}
+
+" shortcut for commenting
+function! Komment()
+  if getline(".") =~ '\/\/'
+    let hls=@/
+    s/^\/\///
+    let @/=hls
+  else
+    let hls=@/
+    s/^/\/\//
+    let @/=hls
+  endif
+endfunction
+map ,/ :call Komment()<CR>
+
+>>>>>>> comment function and paste toggle
+
+nnoremap <F2> :set invpaste paste?<CR>
+set pastetoggle=<F2>
+set showmode
+<<<<<<< HEAD
+=======
+
+>>>>>>> comment function and paste toggle
