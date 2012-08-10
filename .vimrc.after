@@ -7,7 +7,7 @@ syntax enable
 set background=dark
 colorscheme solarized
 
-"set clipboard=unnamed
+set clipboard=unnamed
 
 " shortcut for for loops i js
 ab fori for(var i = 0, ii = _; i < ii; i++){}
@@ -26,8 +26,12 @@ function! Komment()
 endfunction
 map ,/ :call Komment()<CR>
 
+"map ' <Nop>
+map ;l :tabprevious<CR>
+map ;' :tabnext<CR>
+map ;p :tabnew<CR>
 
-nnoremap <F2> :set invpaste paste?<CR>
-set pastetoggle=<F2>
-set showmode
+"nnoremap <F2> :set invpaste paste?<CR>
+"set pastetoggle=<F2>
+"set showmode
 
