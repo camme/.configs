@@ -1,12 +1,24 @@
+execute pathogen#infect()
+
+syntax on 
+set syn=auto 
+set showmatch 
+filetype on 
+filetype plugin on 
+filetype indent on 
+set tabstop=4 
+set softtabstop=4 
+set shiftwidth=4 
+set expandtab
 set shiftwidth=4
-set tabstop=4
-set smartindent
-set autoindent
+set number
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
 syntax enable
+set regexpengine=1
+
 set background=dark
 colorscheme solarized
 
@@ -55,6 +67,8 @@ map <Leader>dwc :python debugger_watch_input("context_get")<cr>A<cr>
 map <Leader>dwp :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
 set tags=tags;
+
+autocmd FileType javascript noremap <buffer>  <c-d> :call JsBeautify()<cr>
 
 " XML formatter
 function! DoFormatXML() range
