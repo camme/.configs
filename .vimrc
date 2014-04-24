@@ -1,4 +1,22 @@
-execute pathogen#infect()
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Plugin 'kien/ctrlp.vim'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 'mattn/emmet-vim'
+Plugin 'wavded/vim-stylus'
+Plugin 'pangloss/vim-javascript'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'ervandew/supertab'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-easytags'
+"Plugin 'mileszs/ack.vim'
+Plugin 'rking/ag.vim'
 
 syntax on 
 set syn=auto 
@@ -12,6 +30,7 @@ set shiftwidth=4
 set expandtab
 set shiftwidth=4
 set number
+set wildignore+=node_modules
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
@@ -26,6 +45,15 @@ set clipboard=unnamed
 
 " shortcut for for loops i js
 ab fori for(var i = 0, ii = _; i < ii; i++){}
+
+py import uuid
+ab uuuid :=pyeval('str(uuid.uuid4())')
+
+function! UUID()
+  pyeval('str(uuid.uuid4())')    
+endfunction
+
+map ;U :call UUID()<CR>
 
 " shortcut for commenting
 function! Komment()
@@ -124,3 +152,5 @@ command! -range=% FormatXML <line1>,<line2>call DoFormatXML()
 
 nmap <silent> <leader>x :%FormatXML<CR>
 vmap <silent> <leader>x :FormatXML<CR>
+
+filetype plugin indent on
