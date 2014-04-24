@@ -25,7 +25,7 @@ colorscheme solarized
 set clipboard=unnamed
 
 " shortcut for for loops i js
-ab fori for(var i = 0, ii = _; i < ii; i++){}
+ab fori for(var i = 0, ii = ___.length; i < ii; i++){
 
 " shortcut for commenting
 function! Komment()
