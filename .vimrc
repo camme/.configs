@@ -35,6 +35,8 @@ set wildignore+=node_modules
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
+set ls=2
+
 syntax enable
 set regexpengine=1
 
@@ -154,3 +156,9 @@ nmap <silent> <leader>x :%FormatXML<CR>
 vmap <silent> <leader>x :FormatXML<CR>
 
 filetype plugin indent on
+
+" Ignore folders etc in ctrl p
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '(node_modules)'
+  \ }
+
