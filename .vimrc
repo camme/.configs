@@ -2,9 +2,10 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
+Plugin 'gmarik/Vundle.vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
@@ -15,12 +16,19 @@ Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-easytags'
-"Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'Lokaltog/vim-easymotion'
-"Plugin 'vim-scripts/ShowMarks'
 Plugin 'kshenoy/vim-signature'
+Plugin 'vim-scripts/TaskList.vim'
+Plugin 'Lokaltog/vim-easymotion'
+Plugin 'digitaltoad/vim-jade'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Shutnik/jshint2.vim'
+Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+call vundle#end()            " required
+filetype plugin indent on    " required
 
 syntax on 
 set syn=auto 
@@ -35,12 +43,13 @@ set expandtab
 set shiftwidth=4
 set number
 set wildignore+=node_modules
+set wildignore+=dist
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
 
 syntax enable
-set regexpengine=1
+"set regexpengine=1
 
 set background=dark
 colorscheme solarized
@@ -150,6 +159,28 @@ if has('neovim')
     set unnamedclip " Automatically use clipboard as storage for the unnamed register
 endif
 
+" Turn of beep
+set noeb vb t_vb=
+
+:highlight ExtraWhitespace ctermbg=darkgreen guibg=lightgreen
+
+" Show trailing whitespace:
+:match ExtraWhitespace /\s\+$/
+
+" bind K to grep word under cursor
+nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+
+" No more ex mode
+nnoremap Q <nop>
+
+" Remember folds
+autocmd BufWrite * mkview
+autocmd BufRead * silent loadview
+
+" Ignore folders etc in ctrl p
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '(node_modules)'
+  \ }
 
 set exrc            " enable per-directory .vimrc files
 set secure          " disable unsafe commands in local .vimrc files
