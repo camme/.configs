@@ -10,7 +10,7 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
 Plugin 'wavded/vim-stylus'
 Plugin 'pangloss/vim-javascript'
-Plugin 'marijnh/tern_for_vim'
+"Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'xolox/vim-misc'
@@ -18,6 +18,9 @@ Plugin 'xolox/vim-easytags'
 "Plugin 'mileszs/ack.vim'
 Plugin 'rking/ag.vim'
 Plugin 'wesQ3/vim-windowswap'
+Plugin 'Lokaltog/vim-easymotion'
+"Plugin 'vim-scripts/ShowMarks'
+Plugin 'kshenoy/vim-signature'
 
 syntax on 
 set syn=auto 
@@ -44,17 +47,30 @@ colorscheme solarized
 
 set clipboard=unnamed
 
+function! ClipboardYank()
+    call system('pbcopy', @@)
+endfunction
+function! ClipboardPaste()
+    let @@ = system('pbpaste')
+endfunction
+
+"vnoremap <silent> y y:call ClipboardYank()<cr>
+"vnoremap <silent> d d:call ClipboardYank()<cr>
+"nnoremap <silent> p :call ClipboardPaste()<cr>
+"onoremap <silent> y y:call ClipboardYank()<cr>
+"onoremap <silent> d d:call ClipboardYank()<cr>
+
 " shortcut for for loops i js
 ab fori for(var i = 0, ii = ___.length; i < ii; i++){
 
-py import uuid
-ab uuuid :=pyeval('str(uuid.uuid4())')
+"py import uuid
+"ab uuuid :=pyeval('str(uuid.uuid4())')
 
-function! UUID()
-  pyeval('str(uuid.uuid4())')    
-endfunction
+"function! UUID()
+" pyeval('str(uuid.uuid4())')    
+"endfunction
 
-map ;U :call UUID()<CR>
+"map ;U :call UUID()<CR>
 
 " shortcut for commenting
 function! Komment()
@@ -68,7 +84,7 @@ function! Komment()
     let @/=hls
   endif
 endfunction
-map ,/ :call Komment()<CR>
+map ;k :call Komment()<CR>
 
 "map ' <Nop>
 map ;l :tabprevious<CR>
@@ -99,58 +115,6 @@ set tags=tags;
 
 autocmd FileType javascript noremap <buffer>  <c-d> :call JsBeautify()<cr>
 
-" XML formatter
-function! DoFormatXML() range
-    " Save the file type
-    let l:origft = &ft
-
-    " Clean the file type
-    set ft=
-
-    " Add fake initial tag (so we can process multiple top-level elements)
-    exe ":let l:beforeFirstLine=" . a:firstline . "-1"
-    if l:beforeFirstLine < 0
-        let l:beforeFirstLine=0
-    endif
-    exe a:lastline . "put ='</PrettyXML>'"
-    exe l:beforeFirstLine . "put ='<PrettyXML>'"
-    exe ":let l:newLastLine=" . a:lastline . "+2"
-    if l:newLastLine > line('$')
-        let l:newLastLine=line('$')
-    endif
-
-    " Remove XML header
-    exe ":" . a:firstline . "," . a:lastline . "s/<\?xml\\_.*\?>\\_s*//e"
-
-    " Recalculate last line of the edited code
-    let l:newLastLine=search('</PrettyXML>')
-
-    " Execute external formatter
-    exe ":silent " . a:firstline . "," . l:newLastLine . "!xmllint --noblanks --format --recover -"
-
-    " Recalculate first and last lines of the edited code
-    let l:newFirstLine=search('<PrettyXML>')
-    let l:newLastLine=search('</PrettyXML>')
-    
-    " Get inner range
-    let l:innerFirstLine=l:newFirstLine+1
-    let l:innerLastLine=l:newLastLine-1
-
-    " Remove extra unnecessary indentation
-    exe ":silent " . l:innerFirstLine . "," . l:innerLastLine "s/^  //e"
-
-    " Remove fake tag
-    exe l:newLastLine . "d"
-    exe l:newFirstLine . "d"
-
-    " Put the cursor at the first line of the edited code
-    exe ":" . l:newFirstLine
-
-    " Restore the file type
-    exe "set ft=" . l:origft
-endfunction
-command! -range=% FormatXML <line1>,<line2>call DoFormatXML()
-
 let mapleader = "\\"
 
 nmap <silent> <leader>x :%FormatXML<CR>
@@ -176,3 +140,16 @@ set statusline+=%*   "switch back to statusline highlight
 set statusline+=%P   "percentage thru file
 
 set laststatus=2
+
+highlight SignColumn ctermbg=Black
+
+if has('neovim')
+    let s:python_host_init = 'python -c "import neovim; neovim.start_host()"'
+    let &initpython = s:python_host_init
+    let &initclipboard = s:python_host_init
+    set unnamedclip " Automatically use clipboard as storage for the unnamed register
+endif
+
+
+set exrc            " enable per-directory .vimrc files
+set secure          " disable unsafe commands in local .vimrc files
