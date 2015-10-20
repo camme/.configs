@@ -82,7 +82,7 @@ ab fori for(var i = 0, ii = ___.length; i < ii; i++){
 "ab uuuid :=pyeval('str(uuid.uuid4())')
 
 "function! UUID()
-" pyeval('str(uuid.uuid4())')    
+" pyeval('str(uuid.uuid4())')  
 "endfunction
 
 "map ;U :call UUID()<CR>
@@ -127,6 +127,8 @@ map <Leader>dwc :python debugger_watch_input("context_get")<cr>A<cr>
 map <Leader>dwp :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
 set tags=tags;
+
+map <Leader>ee :s/\s\+$//g<cr>
 
 let g:syntastic_javascript_checkers = ['eslint']
 
