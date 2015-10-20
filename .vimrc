@@ -12,15 +12,16 @@ Plugin 'mattn/emmet-vim'
 Plugin 'wavded/vim-stylus'
 "Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
-Plugin 'marijnh/tern_for_vim'
+"Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'xolox/vim-misc'
 "Plugin 'xolox/vim-easytags'
 Plugin 'rking/ag.vim'
 Plugin 'wesQ3/vim-windowswap'
-Plugin 'vim-scripts/TaskList.vim'
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'kshenoy/vim-signature'
+Plugin 'vim-scripts/TaskList.vim'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Shutnik/jshint2.vim'
@@ -36,12 +37,12 @@ Plugin 'ap/vim-css-color'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
-syntax on 
-set syn=auto 
-set showmatch 
-set tabstop=4 
-set softtabstop=4 
-set shiftwidth=4 
+syntax on
+set syn=auto
+set showmatch
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set expandtab
 set shiftwidth=4
 set number
@@ -59,17 +60,30 @@ colorscheme solarized
 
 set clipboard=unnamed
 
+function! ClipboardYank()
+    call system('pbcopy', @@)
+endfunction
+function! ClipboardPaste()
+    let @@ = system('pbpaste')
+endfunction
+
+"vnoremap <silent> y y:call ClipboardYank()<cr>
+"vnoremap <silent> d d:call ClipboardYank()<cr>
+"nnoremap <silent> p :call ClipboardPaste()<cr>
+"onoremap <silent> y y:call ClipboardYank()<cr>
+"onoremap <silent> d d:call ClipboardYank()<cr>
+
 " shortcut for for loops i js
 ab fori for(var i = 0, ii = ___.length; i < ii; i++){
 
-py import uuid
-ab uuuid :=pyeval('str(uuid.uuid4())')
+"py import uuid
+"ab uuuid :=pyeval('str(uuid.uuid4())')
 
-function! UUID()
-  pyeval('str(uuid.uuid4())')    
-endfunction
+"function! UUID()
+" pyeval('str(uuid.uuid4())')    
+"endfunction
 
-map ;U :call UUID()<CR>
+"map ;U :call UUID()<CR>
 
 " shortcut for commenting
 function! Komment()
@@ -83,7 +97,7 @@ function! Komment()
     let @/=hls
   endif
 endfunction
-map ,/ :call Komment()<CR>
+map ;k :call Komment()<CR>
 
 "map ' <Nop>
 map ;l :tabprevious<CR>
@@ -158,7 +172,7 @@ function! DoFormatXML() range
     " Recalculate first and last lines of the edited code
     let l:newFirstLine=search('<PrettyXML>')
     let l:newLastLine=search('</PrettyXML>')
-    
+ 
     " Get inner range
     let l:innerFirstLine=l:newFirstLine+1
     let l:innerLastLine=l:newLastLine-1
@@ -203,6 +217,15 @@ set statusline+=%*   "switch back to statusline highlight
 set statusline+=%P   "percentage thru file
 
 set laststatus=2
+
+highlight SignColumn ctermbg=Black
+
+if has('neovim')
+    let s:python_host_init = 'python -c "import neovim; neovim.start_host()"'
+    let &initpython = s:python_host_init
+    let &initclipboard = s:python_host_init
+    set unnamedclip " Automatically use clipboard as storage for the unnamed register
+endif
 
 " Turn of beep
 set noeb vb t_vb=
