@@ -10,12 +10,13 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'mattn/emmet-vim'
 Plugin 'wavded/vim-stylus'
+"Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-easytags'
+"Plugin 'xolox/vim-easytags'
 Plugin 'rking/ag.vim'
 Plugin 'wesQ3/vim-windowswap'
 Plugin 'vim-scripts/TaskList.vim'
@@ -23,10 +24,14 @@ Plugin 'Lokaltog/vim-easymotion'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Shutnik/jshint2.vim'
-Plugin 'mxw/jsx.vim'
+Plugin 'mxw/vim-jsx'
 "Plugin 'bling/vim-airline'
 "Plugin 'powerline/powerline'
 Plugin 'powerline/powerline', {'rtp': 'powerline/bindings/vim/'}
+Plugin 'paradigm/vim-multicursor'
+Plugin 'mxw/vim-xhp'
+Plugin 'sjl/gundo.vim'
+Plugin 'ap/vim-css-color'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
@@ -34,9 +39,6 @@ filetype plugin indent on    " required
 syntax on 
 set syn=auto 
 set showmatch 
-filetype on 
-filetype plugin on 
-filetype indent on 
 set tabstop=4 
 set softtabstop=4 
 set shiftwidth=4 
@@ -110,7 +112,19 @@ map <Leader>dwp :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
 set tags=tags;
 
+let g:syntastic_javascript_checkers = ['eslint']
+
 autocmd FileType javascript noremap <buffer>  <c-d> :call JsBeautify()<cr>
+
+" Multicursor
+nnoremap <Leader>c :<c-u>call MultiCursorPlaceCursor()<cr>
+nnoremap <Leader>cm :<c-u>call MultiCursorManual()<cr>
+nnoremap <Leader>cx :<c-u>call MultiCursorRemoveCursors()<cr>
+xnoremap <Leader>cv :<c-u>call MultiCursorVisual()<cr>
+nnoremap <Leader>cr :<c-u>call MultiCursorSearch('')<cr>
+nnoremap <Leader>cw :<c-u>call MultiCursorSearch('<c-r><c-w>')<cr>
+xnoremap <Leader>ck "*y<Esc>:call MultiCursorSearch('<c-r>=substitute(escape(@*, '\/.*$^~[]'), "\n", '\\n', "g")<cr>')<cr>
+let g:multicursor_quit = "{<Leader>cq}"
 
 " XML formatter
 function! DoFormatXML() range
@@ -215,3 +229,47 @@ let g:ctrlp_custom_ignore = {
 
 set exrc            " enable per-directory .vimrc files
 set secure          " disable unsafe commands in local .vimrc files
+
+set hlsearch
+
+" Sometimes easytags takes to much time when we save a file, so this is
+" supposed to make it faster
+"let g:easytags_syntax_keyword = 'always'
+
+let g:jsx_ext_required = 0 " Allow JSX in normal JS files
+au BufRead,BufNewFile *.jsx set filetype=javascript
+
+let g:LargeFile = 1024 * 1024 * 10
+augroup LargeFile 
+  autocmd BufReadPre * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
+augroup END
+
+function LargeFile()
+
+  " no syntax highlighting etc
+  set eventignore+=FileType
+  " save memory when other file is viewed
+  setlocal bufhidden=unload
+  " is read-only (write with :w new_filename)
+  setlocal buftype=nowrite
+  " no undo possible
+  setlocal undolevels=-1
+  " display message
+  autocmd VimEnter *  echo "The file is larger than " . (g:LargeFile / 1024 / 1024) . " MB, so some options are changed (see .vimrc for details)."
+
+endfunction
+
+set undodir=~/.vim/undo/
+set undofile
+set undolevels=1000
+set undoreload=10000
+
+" Repeat commands
+vnoremap . :normal .<CR>
+
+" vim colors settings
+let g:cssColorVimDoNotMessMyUpdatetime = 1
+
+set statusline+=%{SyntasticStatuslineFlag()}
+let g:syntastic_check_on_open=1
+let g:syntastic_enable_signs=1
