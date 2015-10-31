@@ -12,7 +12,7 @@ Plugin 'mattn/emmet-vim'
 Plugin 'wavded/vim-stylus'
 "Plugin 'othree/yajs.vim'
 Plugin 'pangloss/vim-javascript'
-"Plugin 'marijnh/tern_for_vim'
+Plugin 'marijnh/tern_for_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ervandew/supertab'
 Plugin 'xolox/vim-misc'
@@ -292,9 +292,14 @@ set undoreload=10000
 " Repeat commands
 vnoremap . :normal .<CR>
 
+let g:tern_show_argument_hints=1
+
 " vim colors settings
 let g:cssColorVimDoNotMessMyUpdatetime = 1
 
 set statusline+=%{SyntasticStatuslineFlag()}
 let g:syntastic_check_on_open=1
 let g:syntastic_enable_signs=1
+
+" ignore case if no uppercase letter exists in search query
+set smartcase
