@@ -2,47 +2,64 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
 
-Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'mattn/emmet-vim'
-Plugin 'wavded/vim-stylus'
-"Plugin 'othree/yajs.vim'
-Plugin 'pangloss/vim-javascript'
-"Plugin 'Valloric/YouCompleteMe'
-"Plugin 'marijnh/tern_for_vim'
-Plugin 'ternjs/tern_for_vim'
-Plugin 'scrooloose/syntastic'
-Plugin 'ervandew/supertab'
-Plugin 'xolox/vim-misc'
-"Plugin 'xolox/vim-easytags'
-Plugin 'rking/ag.vim'
-Plugin 'wesQ3/vim-windowswap'
-Plugin 'Lokaltog/vim-easymotion'
-Plugin 'kshenoy/vim-signature'
-Plugin 'vim-scripts/TaskList.vim'
-Plugin 'digitaltoad/vim-jade'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'Shutnik/jshint2.vim'
-Plugin 'mxw/vim-jsx'
-"Plugin 'bling/vim-airline'
-"Plugin 'powerline/powerline'
-Plugin 'paradigm/vim-multicursor'
-Plugin 'mxw/vim-xhp'
-Plugin 'sjl/gundo.vim'
-Plugin 'ap/vim-css-color'
-Plugin 'vim-scripts/loremipsum'
-Plugin 'XadillaX/json-formatter.vim'
-Plugin 'Shougo/deoplete.nvim'
-Plugin 'terryma/vim-expand-region'
-Plugin 'vim-airline/vim-airline'
-Plugin 'terryma/vim-multiple-cursors'
+call plug#begin('~/.vim/plugged')
 
-call vundle#end()            " required
+"set rtp+=~/.vim/bundle/Vundle.vim
+"call vundle#begin()
+
+Plug 'gmarik/Vundle.vim'
+Plug 'kien/ctrlp.vim'
+Plug 'altercation/vim-colors-solarized'
+Plug 'mattn/emmet-vim'
+Plug 'wavded/vim-stylus'
+"Plug 'othree/yajs.vim'
+Plug 'pangloss/vim-javascript'
+Plug 'Valloric/YouCompleteMe'
+"Plug 'marijnh/tern_for_vim'
+Plug 'ternjs/tern_for_vim'
+Plug 'scrooloose/syntastic'
+Plug 'ervandew/supertab'
+Plug 'xolox/vim-misc'
+"Plug 'xolox/vim-easytags'
+Plug 'rking/ag.vim'
+Plug 'wesQ3/vim-windowswap'
+Plug 'Lokaltog/vim-easymotion'
+Plug 'kshenoy/vim-signature'
+Plug 'vim-scripts/TaskList.vim'
+Plug 'digitaltoad/vim-jade'
+Plug 'scrooloose/nerdtree'
+Plug 'jistr/vim-nerdtree-tabs'
+Plug 'Shutnik/jshint2.vim'
+Plug 'mxw/vim-jsx'
+"Plug 'bling/vim-airline'
+"Plug 'powerline/powerline'
+Plug 'paradigm/vim-multicursor'
+Plug 'mxw/vim-xhp'
+Plug 'sjl/gundo.vim'
+"Plug 'ap/vim-css-color'
+Plug 'vim-scripts/loremipsum'
+Plug 'XadillaX/json-formatter.vim'
+Plug 'terryma/vim-expand-region'
+Plug 'vim-airline/vim-airline'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'marchelzo/ircnvim'
+Plug 'vim-scripts/VimIRC.vim'
+"Plug 'flowtype/vim-flow'
+"Plug 'steelsojka/deoplete-flow'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'elzr/vim-json'
+Plug 'tpope/vim-jdaddy'
+"Plug 'junegunn/vim-slash'
+Plug 'jaxbot/semantic-highlight.vim'
+Plug 'blueyed/vim-diminactive'
+
+"call vundle#end()            " required
+
+
+" Add plugins to &runtimepath
+call plug#end()
+
 filetype plugin indent on    " required
 
 syntax on
@@ -84,7 +101,7 @@ endfunction
 "onoremap <silent> d d:call ClipboardYank()<cr>
 
 " shortcut for for loops i js
-ab fori for(var i = 0, ii = ___.length; i < ii; i++){
+ab fori for ( let i = 0, ii = ___.length; i < ii; i++ l) {
 
 "py import uuid
 "ab uuuid :=pyeval('str(uuid.uuid4())')
@@ -120,6 +137,9 @@ set showmode
 
 " Map :W to :w since i always accidentally press wrong
 command W w
+
+" Map NT to toggle NERDTreeTabsToggle
+command NT NERDTreeTabsToggle
 
 map <Leader>dr :python debugger_resize()<cr>
 map <Leader>di :python debugger_command('step_into')<cr>
@@ -230,6 +250,8 @@ set statusline+=%P   "percentage thru file
 
 set laststatus=2
 
+:nnoremap <Leader>s :SemanticHighlightToggle<cr>
+
 highlight SignColumn ctermbg=Black
 
 if has('neovim')
@@ -321,11 +343,18 @@ set smartcase
 
 
 
-
-
-
-
-
-
-
 let g:deoplete#enable_at_startup = 1
+
+" call deoplete#enable_logging("DEBUG", "/Users/camilo/Projects/flowtest/debug.logg")
+
+function! StrTrim(txt)
+  return substitute(a:txt, '^\n*\s*\(.\{-}\)\n*\s*$', '\1', '')
+endfunction
+
+let g:flow_path = StrTrim(system('PATH=$(npm bin):$PATH && which flow'))
+
+if g:flow_path != 'flow not found'
+  let g:deoplete#sources#flow#flow_bin = g:flow_path
+endif
+
+

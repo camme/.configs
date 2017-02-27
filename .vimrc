@@ -37,6 +37,7 @@ Plugin 'sjl/gundo.vim'
 Plugin 'ap/vim-css-color'
 Plugin 'vim-scripts/loremipsum'
 Plugin 'XadillaX/json-formatter.vim'
+Plugin 'blueyed/vim-diminactive'
 
 call vundle#end()            " required
 filetype plugin indent on    " required
