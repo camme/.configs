@@ -52,6 +52,9 @@ set expandtab
 set shiftwidth=4
 set number
 set wildignore+=node_modules
+set wildignore+=www-dev
+set wildignore+=www-dist
+set wildignore+=www-prod
 set wildignore+=pim
 set wildignore+=dist
 
@@ -318,6 +321,10 @@ nnoremap Q <nop>
 autocmd BufWrite * mkview
 autocmd BufRead * silent loadview
 
+" Make sure our root is where we started vim
+let g:ag_working_path_mode='ra'
+let g:ctrlp_working_path_mode = 'ra'
+
 " Ignore folders etc in ctrl p
 let g:ctrlp_custom_ignore = {
   \ 'dir':  '(pim|node_modules)'
@@ -325,6 +332,8 @@ let g:ctrlp_custom_ignore = {
 
 set exrc            " enable per-directory .vimrc files
 set secure          " disable unsafe commands in local .vimrc files
+
+let g:ctrlp_root_markers=['.project']
 
 set hlsearch
 
