@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'gmarik/Vundle.vim'
 Plug 'kien/ctrlp.vim'
-Plug 'altercation/vim-colors-solarized'
 Plug 'mattn/emmet-vim'
 Plug 'wavded/vim-stylus'
 "Plug 'othree/yajs.vim'
@@ -53,7 +52,7 @@ Plug 'tpope/vim-jdaddy'
 "Plug 'junegunn/vim-slash'
 Plug 'jaxbot/semantic-highlight.vim'
 "Plug 'blueyed/vim-diminactive'
-Plu "altercation/vim-colors-solarized"
+Plug "altercation/vim-colors-solarized"
 
 "call vundle#end()            " required
 
@@ -83,8 +82,14 @@ syntax enable
 "set regexpengine=1
 
 set background=dark
-colorscheme desert
-colorscheme solarized
+
+try
+    colorscheme desert
+    colorscheme solarized
+
+catch /^Vim\%((\a\+)\)\=:E185/
+    " deal with it
+endtry
 
 set clipboard=unnamed
 
