@@ -52,7 +52,7 @@ Plug 'tpope/vim-jdaddy'
 "Plug 'junegunn/vim-slash'
 Plug 'jaxbot/semantic-highlight.vim'
 "Plug 'blueyed/vim-diminactive'
-Plug "altercation/vim-colors-solarized"
+Plug 'altercation/vim-colors-solarized'
 
 "call vundle#end()            " required
 
