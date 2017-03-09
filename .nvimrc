@@ -285,8 +285,9 @@ nnoremap K :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap Q <nop>
 
 " Remember folds
-autocmd BufWrite * mkview
-autocmd BufRead * silent loadview
+" TUNED OF ON THE 9th of MArch 2017 because it gave an error
+" autocmd BufWrite * mkview
+" autocmd BufRead * silent loadview
 
 " Ignore folders etc in ctrl p
 let g:ctrlp_custom_ignore = {
