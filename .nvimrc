@@ -44,7 +44,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'marchelzo/ircnvim'
 Plug 'vim-scripts/VimIRC.vim'
-"Plug 'flowtype/vim-flow'
+Plug 'flowtype/vim-flow'
 "Plug 'steelsojka/deoplete-flow'
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'elzr/vim-json'
@@ -53,6 +53,7 @@ Plug 'tpope/vim-jdaddy'
 Plug 'jaxbot/semantic-highlight.vim'
 "Plug 'blueyed/vim-diminactive'
 Plug 'altercation/vim-colors-solarized'
+Plug 'suan/vim-instant-markdown'
 
 "call vundle#end()            " required
 
