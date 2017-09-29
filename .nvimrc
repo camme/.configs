@@ -54,6 +54,7 @@ Plug 'jaxbot/semantic-highlight.vim'
 "Plug 'blueyed/vim-diminactive'
 Plug 'altercation/vim-colors-solarized'
 Plug 'suan/vim-instant-markdown'
+Plug 'bluz71/vim-moonfly-colors'
 
 "call vundle#end()            " required
 
@@ -85,6 +86,7 @@ syntax enable
 set background=dark
 
 try
+    colorscheme moonfly
     colorscheme desert
     colorscheme solarized
 
@@ -109,6 +111,10 @@ endfunction
 
 " shortcut for for loops i js
 ab fori for ( let i = 0, ii = ___.length; i < ii; i++ l) {
+
+ab setTime setTimeout(() => {
+     \<CR>
+     \<CR>}, 100);
 
 "py import uuid
 "ab uuuid :=pyeval('str(uuid.uuid4())')
@@ -165,7 +171,6 @@ set tags=tags;
 
 map <Leader>ee :s/\s\+$//g<cr>
 
-let g:syntastic_javascript_checkers = ['eslint']
 
 autocmd FileType javascript noremap <buffer>  <c-d> :call JsBeautify()<cr>
 
@@ -340,16 +345,35 @@ let g:tern_show_argument_hints=1
 " vim colors settings
 let g:cssColorVimDoNotMessMyUpdatetime = 1
 
-set statusline+=%{SyntasticStatuslineFlag()}
-let g:syntastic_check_on_open=1
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_loc_list_height = 5
 let g:syntastic_enable_signs=1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_javascript_checkers = ['eslint']
+"let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+
+" Statusline with eslint errors
+set statusline+=\ %#warningmsg#
+set statusline+=%{exists('g:loaded_syntastic_plugin')?SyntasticStatuslineFlag():''}
+set statusline+=%*
 
 " ignore case if no uppercase letter exists in search query
 set smartcase
 
 
 
-
+"function! FindConfig(prefix, what, where)
+"    let cfg = findfile(a:what, escape(a:where, ' ') . ';')
+"    return cfg !=# '' ? ' ' . a:prefix . ' ' . shellescape(cfg) : ''
+"endfunction
+"
+"autocmd FileType javascript let b:syntastic_javascript_jscs_args =
+"    \ get(g:, 'syntastic_javascript_jscs_args', '') .
+"    \ FindConfig('-c', '.eslintrc.json', expand('<afile>:p:h', 1))
+"
 
 let g:deoplete#enable_at_startup = 1
 
@@ -365,4 +389,9 @@ if g:flow_path != 'flow not found'
   let g:deoplete#sources#flow#flow_bin = g:flow_path
 endif
 
+" Fix errors in mac os x when editing crontab
+autocmd filetype crontab setlocal nobackup nowritebackup
 
+
+" Set relative line numbers
+set relativenumber
