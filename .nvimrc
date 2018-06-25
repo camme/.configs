@@ -1,3 +1,15 @@
+" File              : /Users/camilo/.configs/.nvimrc
+" Author            : Camilo Tapia <camilo.tapia@gmail.com>
+" Last Modified Date: 15.11.2017
+" Last Modified By  : Camilo Tapia <camilo.tapia@gmail.com>
+" File              : /Users/camilo/.configs/.nvimrc
+" Author            : Camilo Tapia <camilo.tapia@gmail.com>
+" Date              : 21.10.2017
+" Last Modified Date: 21.10.2017
+" Last Modified By  : Camilo Tapia <camilo.tapia@gmail.com>
+" File              : /Users/camilo/.configs/.nvimrc
+" Date              : 20.10.2017
+" Last Modified Date: 20.10.2017
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -10,23 +22,29 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'gmarik/Vundle.vim'
 Plug 'kien/ctrlp.vim'
-Plug 'mattn/emmet-vim'
+"Plug 'mattn/emmet-vim'
 Plug 'wavded/vim-stylus'
 "Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
-Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+
+Plug 'roxma/nvim-yarp'
+Plug 'roxma/vim-hug-neovim-rpc'
+
 "Plug 'marijnh/tern_for_vim'
 Plug 'ternjs/tern_for_vim'
-Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
+"Plug 'scrooloose/syntastic'
 Plug 'ervandew/supertab'
 Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
 Plug 'rking/ag.vim'
-Plug 'wesQ3/vim-windowswap'
+"Plug 'wesQ3/vim-windowswap'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'kshenoy/vim-signature'
-Plug 'vim-scripts/TaskList.vim'
-Plug 'digitaltoad/vim-jade'
+"Plug 'vim-scripts/TaskList.vim'
+"Plug 'digitaltoad/vim-jade'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Shutnik/jshint2.vim'
@@ -35,26 +53,28 @@ Plug 'mxw/vim-jsx'
 "Plug 'powerline/powerline'
 Plug 'paradigm/vim-multicursor'
 Plug 'mxw/vim-xhp'
-Plug 'sjl/gundo.vim'
+"Plug 'sjl/gundo.vim'
 "Plug 'ap/vim-css-color'
 Plug 'vim-scripts/loremipsum'
-Plug 'XadillaX/json-formatter.vim'
+"Plug 'XadillaX/json-formatter.vim'
 Plug 'terryma/vim-expand-region'
 Plug 'vim-airline/vim-airline'
 Plug 'terryma/vim-multiple-cursors'
-Plug 'marchelzo/ircnvim'
-Plug 'vim-scripts/VimIRC.vim'
+"Plug 'marchelzo/ircnvim'
+"Plug 'vim-scripts/VimIRC.vim'
 Plug 'flowtype/vim-flow'
 "Plug 'steelsojka/deoplete-flow'
 "Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'elzr/vim-json'
 Plug 'tpope/vim-jdaddy'
 "Plug 'junegunn/vim-slash'
-Plug 'jaxbot/semantic-highlight.vim'
+"Plug 'jaxbot/semantic-highlight.vim'
 "Plug 'blueyed/vim-diminactive'
 Plug 'altercation/vim-colors-solarized'
-Plug 'suan/vim-instant-markdown'
+"Plug 'suan/vim-instant-markdown'
 Plug 'bluz71/vim-moonfly-colors'
+Plug 'editorconfig/editorconfig-vim'
+"Plug 'alpertuna/vim-header'
 
 "call vundle#end()            " required
 
@@ -342,18 +362,26 @@ vnoremap . :normal .<CR>
 
 let g:tern_show_argument_hints=1
 
+" Highlight 
+:autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red guibg=red
+
+" Show trailing whitespace:
+":match ExtraWhitespace /\s\+$/
+":match ExtraWhitespace /\t/
+
+:autocmd Syntax * syn match ExtraWhitespace /\s\+$\| \+\ze\t/
+
 " vim colors settings
 let g:cssColorVimDoNotMessMyUpdatetime = 1
 
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 0
-let g:syntastic_loc_list_height = 5
-let g:syntastic_enable_signs=1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_javascript_checkers = ['eslint']
-"let g:syntastic_javascript_eslint_exe = 'npm run lint --'
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 0
+"let g:syntastic_loc_list_height = 5
+"let g:syntastic_enable_signs=1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_javascript_checkers = ['eslint']
 
 " Statusline with eslint errors
 set statusline+=\ %#warningmsg#
@@ -395,3 +423,15 @@ autocmd filetype crontab setlocal nobackup nowritebackup
 
 " Set relative line numbers
 set relativenumber
+
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\}
+
+
+let g:header_field_author = 'Camilo Tapia'
+let g:header_field_author_email = 'camilo.tapia@gmail.com'
+let g:header_field_timestamp = 0
+map <F4> :AddHeader<CR>
+
+let g:deoplete#enable_at_startup = 1

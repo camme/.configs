@@ -1,37 +1,40 @@
-module StatusParse (processStatus, StatusT(StatusC, staged, conflict, changed, untracked)) where
+module StatusParse where
+
+import Data.Traversable (for)
+
 
 {- Full status information -}
-data StatusT a = StatusC {
+data Status a = MakeStatus {
 	staged :: a,
 	conflict :: a,
 	changed :: a,
 	untracked :: a} deriving (Eq, Show)
 
 {- The two characters starting a git status line: -}
-type MiniStatus = (Char, Char)
+data MiniStatus = MkMiniStatus Char Char
 
 {- Interpretation of mini status -}
 isChanged :: MiniStatus -> Bool
-isChanged (index,work) =
+isChanged (MkMiniStatus index work) =
 		work == 'M' || (work == 'D' && index /= 'D')
 
 isStaged :: MiniStatus -> Bool
-isStaged (index,work) =
+isStaged (MkMiniStatus index work) =
 		(index `elem` "MRC") || (index == 'D' && work /= 'D') || (index == 'A' && work /= 'A')
 
 isConflict :: MiniStatus -> Bool
-isConflict (index,work) =
+isConflict (MkMiniStatus index work) =
 		index == 'U' || work == 'U' || (index == 'A' && work == 'A') || (index == 'D' && work == 'D')
 
 isUntracked :: MiniStatus -> Bool
-isUntracked (index,_) =
+isUntracked (MkMiniStatus index _) =
 		index == '?'
 
 countByType :: (MiniStatus -> Bool) -> [MiniStatus] -> Int
 countByType isType = length . filter isType
 
-countStatus :: [MiniStatus] -> StatusT Int
-countStatus l = StatusC 
+countStatus :: [MiniStatus] -> Status Int
+countStatus l = MakeStatus
 	{
  	staged=countByType isStaged l,
 	conflict=countByType isConflict l,
@@ -39,11 +42,14 @@ countStatus l = StatusC
 	untracked=countByType isUntracked l
 	}
 
-extractMiniStatus :: String -> MiniStatus
-extractMiniStatus [] = undefined
-extractMiniStatus [_] = undefined
-extractMiniStatus (index:work:_) = (index,work)
+extractMiniStatus :: String -> Maybe MiniStatus
+extractMiniStatus [] = Nothing
+extractMiniStatus [_] = Nothing
+extractMiniStatus (index:work:_) = Just (MkMiniStatus index work)
 
-processStatus :: [String] -> StatusT Int
-processStatus = countStatus . fmap extractMiniStatus
+processStatus :: [String] -> Maybe (Status Int)
+processStatus statLines =
+	do -- Maybe
+		statList <- for statLines extractMiniStatus
+		return (countStatus statList)
 
