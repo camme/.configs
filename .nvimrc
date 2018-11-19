@@ -1,15 +1,3 @@
-" File              : /Users/camilo/.configs/.nvimrc
-" Author            : Camilo Tapia <camilo.tapia@gmail.com>
-" Last Modified Date: 15.11.2017
-" Last Modified By  : Camilo Tapia <camilo.tapia@gmail.com>
-" File              : /Users/camilo/.configs/.nvimrc
-" Author            : Camilo Tapia <camilo.tapia@gmail.com>
-" Date              : 21.10.2017
-" Last Modified Date: 21.10.2017
-" Last Modified By  : Camilo Tapia <camilo.tapia@gmail.com>
-" File              : /Users/camilo/.configs/.nvimrc
-" Date              : 20.10.2017
-" Last Modified Date: 20.10.2017
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
