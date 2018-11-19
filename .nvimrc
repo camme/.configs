@@ -21,7 +21,7 @@ call plug#begin('~/.vim/plugged')
 "call vundle#begin()
 
 Plug 'gmarik/Vundle.vim'
-Plug 'kien/ctrlp.vim'
+"Plug 'kien/ctrlp.vim'
 "Plug 'mattn/emmet-vim'
 Plug 'wavded/vim-stylus'
 "Plug 'othree/yajs.vim'
@@ -75,6 +75,11 @@ Plug 'altercation/vim-colors-solarized'
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'editorconfig/editorconfig-vim'
 "Plug 'alpertuna/vim-header'
+Plug 'RRethy/vim-illuminate'
+Plug 'stephpy/vim-yaml'
+Plug 'Shougo/denite.nvim'
+Plug 'airblade/vim-gitgutter'
+"Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 
 "call vundle#end()            " required
 
@@ -435,3 +440,12 @@ let g:header_field_timestamp = 0
 map <F4> :AddHeader<CR>
 
 let g:deoplete#enable_at_startup = 1
+
+" let g:gitgutter_highlight_lines = 1
+
+set inccommand=nosplit
+
+" ************* Denite and matcher START ***************
+call denite#custom#var('file/rec', 'command', ['scantree.py', '--skip-list=.git,node_modules,bower_components,tmp,log'])
+nnoremap <C-p> :Denite file_rec<cr>
+" ************* Denite and matcher END ***************
