@@ -27,11 +27,9 @@ Plug 'wavded/vim-stylus'
 "Plug 'othree/yajs.vim'
 Plug 'pangloss/vim-javascript'
 "Plug 'Valloric/YouCompleteMe'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
-
 "Plug 'marijnh/tern_for_vim'
 Plug 'ternjs/tern_for_vim'
 Plug 'w0rp/ale'
@@ -77,10 +75,21 @@ Plug 'editorconfig/editorconfig-vim'
 "Plug 'alpertuna/vim-header'
 Plug 'RRethy/vim-illuminate'
 Plug 'stephpy/vim-yaml'
-Plug 'Shougo/denite.nvim'
+"Plug 'Shougo/denite.nvim'
 Plug 'airblade/vim-gitgutter'
 "Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
-
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'ap/vim-css-color'
+Plug 'tpope/vim-fugitive'
+Plug 'rbong/vim-flog'
+Plug 'wincent/ferret'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'scrooloose/nerdcommenter'
+Plug 'jparise/vim-graphql'
+Plug 'SirVer/ultisnips'
+" Plug 'sheerun/vim-polyglot'
 "call vundle#end()            " required
 
 
@@ -101,6 +110,8 @@ set number
 set wildignore+=node_modules
 set wildignore+=pim
 set wildignore+=dist
+set wildignore+=.tags
+set wildignore+=.ctags
 
 set backupdir=~/.vim/backup
 set directory=~/.vim/tmp
@@ -135,7 +146,7 @@ endfunction
 "onoremap <silent> d d:call ClipboardYank()<cr>
 
 " shortcut for for loops i js
-ab fori for ( let i = 0, ii = ___.length; i < ii; i++ l) {
+" ab fori for ( let i = 0, ii = ___.length; i < ii; i++ ) {
 
 ab setTime setTimeout(() => {
      \<CR>
@@ -151,18 +162,18 @@ ab setTime setTimeout(() => {
 "map ;U :call UUID()<CR>
 
 " shortcut for commenting
-function! Komment()
-  if getline(".") =~ '\/\/'
-    let hls=@/
-    s/^\/\///
-    let @/=hls
-  else
-    let hls=@/
-    s/^/\/\//
-    let @/=hls
-  endif
-endfunction
-map ;k :call Komment()<CR>
+"function! Komment()
+"  if getline(".") =~ '\/\/'
+"    let hls=@/
+"    s/^\/\///
+"    let @/=hls
+"  else
+"    let hls=@/
+"    s/^/\/\//
+"    let @/=hls
+"  endif
+"endfunction
+"map ;k :call Komment()<CR>
 
 "map ' <Nop>
 map ;l :tabprevious<CR>
@@ -192,7 +203,7 @@ map <Leader>dp :python debugger_property()<cr>
 map <Leader>dwc :python debugger_watch_input("context_get")<cr>A<cr>
 map <Leader>dwp :python debugger_watch_input("property_get", '<cword>')<cr>A<cr>
 
-set tags=tags;
+set tags=./tags;/
 
 map <Leader>ee :s/\s\+$//g<cr>
 
@@ -445,7 +456,27 @@ let g:deoplete#enable_at_startup = 1
 
 set inccommand=nosplit
 
+let $FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git/*' --glob '!*.png' --glob '!*.jpg'"
+:nnoremap <c-p> :FZF<cr>
+
 " ************* Denite and matcher START ***************
-call denite#custom#var('file/rec', 'command', ['scantree.py', '--skip-list=.git,node_modules,bower_components,tmp,log'])
-nnoremap <C-p> :Denite file_rec<cr>
+"call denite#custom#var('file/rec', 'command', ['scantree.py', '--skip-list=.git,node_modules,bower_components,tmp,log'])
+"nnoremap <C-p> :Denite file_rec<cr>
 " ************* Denite and matcher END ***************
+"
+"
+" " use <tab> for trigger completion and navigate to next complete item
+function! s:check_back_space() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~ '\s'
+endfunction
+
+inoremap <silent><expr> <TAB>
+      \ pumvisible() ? "\<C-n>" :
+      \ <SID>check_back_space() ? "\<TAB>" :
+      \ coc#refresh()<Paste>
+
+set wildoptions=pum
+
+" SNIPPETS
+let g:UltiSnipsSnippetDirectories=["UltiSnips", "ulti-snippets"]"
