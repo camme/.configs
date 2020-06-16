@@ -25,7 +25,7 @@ Plug 'w0rp/ale'
 Plug 'ervandew/supertab'
 Plug 'xolox/vim-misc'
 "Plug 'xolox/vim-easytags'
-Plug 'rking/ag.vim'
+"Plug 'rking/ag.vim'
 "Plug 'wesQ3/vim-windowswap'
 Plug 'Lokaltog/vim-easymotion'
 Plug 'kshenoy/vim-signature'
@@ -34,7 +34,8 @@ Plug 'kshenoy/vim-signature'
 Plug 'scrooloose/nerdtree'
 Plug 'jistr/vim-nerdtree-tabs'
 Plug 'Shutnik/jshint2.vim'
-Plug 'mxw/vim-jsx'
+"Plug 'mxw/vim-jsx'
+Plug 'chemzqm/vim-jsx-improve'
 "Plug 'bling/vim-airline'
 "Plug 'powerline/powerline'
 Plug 'paradigm/vim-multicursor'
@@ -58,6 +59,7 @@ Plug 'tpope/vim-jdaddy'
 "Plug 'blueyed/vim-diminactive'
 Plug 'altercation/vim-colors-solarized'
 "Plug 'suan/vim-instant-markdown'
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug 'bluz71/vim-moonfly-colors'
 Plug 'editorconfig/editorconfig-vim'
 "Plug 'alpertuna/vim-header'
@@ -68,7 +70,7 @@ Plug 'airblade/vim-gitgutter'
 "Plug 'raghur/fruzzy', {'do': { -> fruzzy#install()}}
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'tag': '*', 'do': { -> coc#util#install()}}
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 Plug 'ap/vim-css-color'
 Plug 'tpope/vim-fugitive'
 Plug 'rbong/vim-flog'
@@ -76,7 +78,15 @@ Plug 'wincent/ferret'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'scrooloose/nerdcommenter'
 Plug 'jparise/vim-graphql'
-Plug 'SirVer/ultisnips'
+"Plug 'SirVer/ultisnips'
+Plug 'dracula/vim', { 'as': 'dracula' }
+Plug 'gkapfham/vim-vitamin-onec'
+Plug 'levelone/tequila-sunrise.vim'
+Plug 'yegappan/mru'
+Plug 'xavierchow/vim-sequence-diagram'
+Plug 'jremmen/vim-ripgrep'
+Plug 'zivyangll/git-blame.vim'
+
 " Plug 'sheerun/vim-polyglot'
 "call vundle#end()            " required
 
@@ -108,11 +118,15 @@ syntax enable
 "set regexpengine=1
 
 set background=dark
+set termguicolors
 
 try
-    colorscheme moonfly
+    " colorscheme moonfly
     colorscheme desert
     colorscheme solarized
+    colorscheme dracula
+    colorscheme vitaminonec
+    colorscheme tequila-sunrise
 
 catch /^Vim\%((\a\+)\)\=:E185/
     " deal with it
@@ -466,5 +480,12 @@ inoremap <silent><expr> <TAB>
 
 set wildoptions=pum
 
+" Fugitive Conflict Resolution
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap gdh :diffget //2<CR>
+nnoremap gdl :diffget //3<CR>
+
 " SNIPPETS
-let g:UltiSnipsSnippetDirectories=["UltiSnips", "ulti-snippets"]"
+"let g:UltiSnipsSnippetDirectories=["UltiSnips", "ulti-snippets"]"
+"
+nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
