@@ -86,6 +86,7 @@ Plug 'yegappan/mru'
 Plug 'xavierchow/vim-sequence-diagram'
 Plug 'jremmen/vim-ripgrep'
 Plug 'zivyangll/git-blame.vim'
+Plug 'idanarye/vim-merginal'
 
 " Plug 'sheerun/vim-polyglot'
 "call vundle#end()            " required
@@ -132,7 +133,7 @@ catch /^Vim\%((\a\+)\)\=:E185/
     " deal with it
 endtry
 
-set clipboard=unnamed
+set clipboard=unnamedplus
 
 function! ClipboardYank()
     call system('pbcopy', @@)
@@ -489,3 +490,8 @@ nnoremap gdl :diffget //3<CR>
 "let g:UltiSnipsSnippetDirectories=["UltiSnips", "ulti-snippets"]"
 "
 nnoremap <Leader>s :<C-u>call gitblame#echo()<CR>
+inoremap <Leader><lt> <esc>
+
+set nowrap
+
+set timeoutlen=1000 ttimeoutlen=0
